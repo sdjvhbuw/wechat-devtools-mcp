@@ -34,3 +34,16 @@ version on the WeChat platform and cannot be undone by this project.
 The server does not collect or store WeChat credentials, CLI tokens, or
 cookies. If a CLI token is required, pass it through the
 `WECHAT_DEVTOOLS_CLI_TOKEN` environment variable on your machine.
+
+## Known upstream advisories
+
+`miniprogram-automator@0.13.0` (the latest official release) still pulls in
+`jimp@0.6.8` and `phin@2.9.3`. `npm audit --omit=dev` reports five moderate
+advisories from that chain. The project applies npm overrides for the
+reachable critical/high issues (`minimist`, `mkdirp`, `jpeg-js`) but does not
+force-upgrade or downgrade the upstream SDK, because that would either break
+its API or reintroduce the same transitive tree.
+
+The affected image/HTTP code is not used by this MCP server’s tool surface.
+Still, treat the process as local-only and do not feed it untrusted files or
+URLs. Dependabot is configured to surface upstream updates.

@@ -1,6 +1,6 @@
 {
   "name": "wechat-devtools-mcp",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "MCP server for WeChat DevTools: official CLI project operations and mini program simulator automation.",
   "license": "MIT",
   "author": "sdjvhbuw",
@@ -57,5 +57,11 @@
   "devDependencies": {
     "@electron/asar": "^4.3.1",
     "prettier": "^3.9.10"
+  },
+  "overrides": {
+    "minimist": "^1.2.8",
+    "mkdirp": "^0.5.6",
+    "jpeg-js": "^0.4.4",
+    "debug": "^4.4.3"
   }
 }

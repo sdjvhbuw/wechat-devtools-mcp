@@ -145,6 +145,7 @@ expose(
     }
     const servicePort = readServicePortSetting();
     const ideState = readIdeState();
+    const idePortOpen = ideState?.port ? await isPortOpen(ideState.port) : false;
     const state = getSessionState();
     const probe = await probeSession();
     return {
@@ -164,14 +165,13 @@ expose(
         portOpen: await isPortOpen(state.port),
       },
       servicePort: servicePort
-        ? { ...servicePort, ok: servicePort.enabled }
-        : { ok: false, reason: '未找到安全设置文件' },
-      ide: ideState
         ? {
-            ...ideState,
-            portOpen: ideState.port ? await isPortOpen(ideState.port) : false,
+            ...servicePort,
+            configured: servicePort.enabled,
+            ok: servicePort.enabled && idePortOpen,
           }
-        : null,
+        : { ok: false, configured: false, reason: '未找到安全设置文件' },
+      ide: ideState ? { ...ideState, portOpen: idePortOpen } : null,
       uploadEnabled: allowUpload,
       outputDir,
     };
@@ -578,7 +578,7 @@ expose(
             `switchTab 只能跳转 tabBar 页面。可用：${appPages.tabBar.join(', ')}；收到：${target}`
           );
         }
-      } else if (mode !== 'reLaunch' && appPages.all.length) {
+      } else if (appPages.all.length) {
         if (!appPages.all.includes(target)) {
           const tabHint = appPages.tabBar.includes(target)
             ? '该页面在 tabBar 中，请改用 switchTab。'
@@ -587,7 +587,8 @@ expose(
             `${mode} 目标页面 ${target} 不在 app.json 的 pages/subPackages 中。${tabHint}\n如果这是动态页面，可传 validate=false 跳过检查。`
           );
         }
-        if (appPages.tabBar.includes(target)) {
+        // reLaunch 可以进入 tabBar 页面；navigateTo / redirectTo 不可以。
+        if (mode !== 'reLaunch' && appPages.tabBar.includes(target)) {
           throw new Error(
             `${mode} 不能跳转 tabBar 页面（${target}），请改用 switchTab 或 reLaunch。`
           );

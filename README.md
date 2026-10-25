@@ -82,7 +82,7 @@ Qoder 写在 `~/.qoder/settings.json`，其他客户端按各自文档放到对�
 - 开发者工具退出后可能残留 `Default/.ide` 和 `.ide-status=On`，导致 CLI 一直等待旧端口。检测到端口已关闭且文件超过 15 秒未更新时，会备份为 `.ide.stale-<时间>` 并清理，同时把状态写为 `Off`。
 - `wdt_quit` 会等待实际 `.ide` 端口关闭（最多 40 秒），然后清理残留。
 - 不想让 MCP 动这些状态文件时设 `WECHAT_DEVTOOLS_NO_STALE_CLEANUP=1`。
-- 手动改过安全设置后，可先用 `wdt_status` 看 `ide.portOpen` 和 `servicePort`。
+- 手动改过安全设置后，可先用 `wdt_status` 看 `ide.portOpen`、`servicePort.configured` 和 `servicePort.ok`（`ok` 表示配置已开启且 IDE 端口当前真的在线）。
 
 ## 工具
 
@@ -122,7 +122,7 @@ node scripts/smoke.js "C:/path/to/your-miniprogram"
 回归测试：
 
 ```bash
-npm run test:e2e   # 52 项：输入/点击/滑动/滚动/跳转/求值/错误路径
+npm run test:e2e   # 55 项：输入/点击/滑动/滚动/跳转/求值/错误路径
 npm run test:cli   # open/close/preview/build/quit/恢复
 ```
 
@@ -143,6 +143,7 @@ npm run test:cli
 - `wdt_evaluate` 和 `wdt_wx_method` 属于本地任意执行能力，只在可信项目中使用。
 - MCP 只监听 stdio，不开放网络端口；请不要把 `wdt_evaluate` 暴露给不可信输入。
 - 本项目只操作微信开发者工具及其模拟器，不控制微信客户端本身。
+- `miniprogram-automator` 的 `jimp`/`phin` 链仍有 5 个 moderate 上游告警；critical/high 已通过 npm overrides 处理。详见 [SECURITY.md](SECURITY.md)。
 
 ## 已知限制
 

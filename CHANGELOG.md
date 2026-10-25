@@ -4,6 +4,31 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.2] - 2026-10-26
+
+### Fixed
+
+- `reLaunch` now validates the target against `app.json` while still allowing
+  tabBar pages.
+- The automation startup budget now includes the time spent starting the IDE;
+  a cold start can no longer exceed the advertised 45 second budget before the
+  CLI wait begins.
+- `wdt_status.servicePort.ok` now means “configured and currently reachable”;
+  `servicePort.configured` reports the stored setting separately.
+
+### Security
+
+- Added npm overrides for `minimist`, `mkdirp`, `jpeg-js`, and `debug`.
+  `npm audit --omit=dev` drops from 11 advisories (3 critical, 1 high) to
+  5 moderate advisories in the upstream `miniprogram-automator` /
+  `jimp` / `phin` chain.
+- Added Dependabot configuration for npm and GitHub Actions.
+- Documented the remaining upstream advisories in `SECURITY.md`.
+
+### Tests
+
+- Added reLaunch success/failure coverage; automation suite is now 55 checks.
+
 ## [1.0.1] - 2026-10-26
 
 ### Fixed

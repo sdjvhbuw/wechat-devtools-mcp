@@ -90,8 +90,20 @@ const pageData = async () => (await call('wdt_page_data', { action: 'get' })).re
 try {
   await client.connect(transport);
 
+  // Close a fixture window left by an interrupted previous run so the
+  // automation port is free and the page state is fresh.
+  try {
+    await call('wdt_close_project', { projectPath });
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+  } catch {
+    // The IDE may be closed; auto_start below will launch it.
+  }
+
   await test('status: 初始状态', () => call('wdt_status'), {
-    check: (v) => v.devtools.electronExists && v.servicePort.ok === true,
+    check: (v) =>
+      v.devtools.electronExists &&
+      v.servicePort.enabled === true &&
+      v.servicePort.ok === (v.servicePort.enabled && v.ide.portOpen),
   });
 
   await test(
@@ -215,6 +227,30 @@ try {
     () => call('wdt_navigate', { mode: 'switchTab', url: '/pages/index/index' }),
     {
       check: (v) => v.page?.path === 'pages/index/index',
+    }
+  );
+
+  await test(
+    'navigate: reLaunch 到 tab 页',
+    () => call('wdt_navigate', { mode: 'reLaunch', url: '/pages/tab/tab' }),
+    {
+      check: (v) => v.page?.path === 'pages/tab/tab',
+    }
+  );
+
+  await test(
+    'navigate: reLaunch 后 switchTab 回首页',
+    () => call('wdt_navigate', { mode: 'switchTab', url: '/pages/index/index' }),
+    {
+      check: (v) => v.page?.path === 'pages/index/index',
+    }
+  );
+
+  await test(
+    'navigate: 未声明 reLaunch 页面应失败',
+    () => call('wdt_navigate', { mode: 'reLaunch', url: '/pages/nope/nope' }),
+    {
+      expectError: true,
     }
   );
 
@@ -462,9 +498,13 @@ try {
     }
   );
 
-  await test('disconnect', () => call('wdt_disconnect'), {
-    check: (v) => v.connected === false,
-  });
+  await test(
+    'disconnect: 关闭项目窗口',
+    () => call('wdt_disconnect', { closeProject: true }),
+    {
+      check: (v) => v.connected === false,
+    }
+  );
 
   await test('disconnect: 重复调用安全', () => call('wdt_disconnect'), {
     check: (v) => v.connected === false,

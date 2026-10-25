@@ -303,7 +303,9 @@ export async function startAutomation({
   await clearStaleIdeState({ force: restart });
   autoChild = startCliAuto(requestedPath, selectedPort);
 
-  const opened = await waitForPort(selectedPort, budget);
+  // The budget covers IDE startup as well; do not restart the full clock here.
+  const remainingForPort = Math.max(5000, budget - (Date.now() - startedAt));
+  const opened = await waitForPort(selectedPort, remainingForPort);
   if (!opened) {
     const log = tail(autoLog, 4000);
     if (autoChild && autoChild.exitCode === null) autoChild.kill();
