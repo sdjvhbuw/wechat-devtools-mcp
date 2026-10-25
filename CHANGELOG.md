@@ -4,6 +4,15 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.1] - 2026-10-26
+
+### Fixed
+
+- CI now runs on `windows-latest`. The package declares `os: ["win32"]`, so
+  `npm ci` on Ubuntu failed with `EBADPLATFORM` for the `v1.0.0` workflow.
+  The `v1.0.0` tag is left in place; use `v1.0.1` as the first verified
+  release.
+
 ## [1.0.0] - 2026-10-25
 
 First public release.
