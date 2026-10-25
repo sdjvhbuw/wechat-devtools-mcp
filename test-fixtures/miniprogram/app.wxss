@@ -1,0 +1,24 @@
+.container {
+  padding: 16px;
+}
+
+.name-input,
+.scroll,
+.swiper {
+  border: 1px solid #ddd;
+  margin-bottom: 12px;
+}
+
+.scroll-item {
+  height: 40px;
+  line-height: 40px;
+  padding-left: 12px;
+  border-bottom: 1px solid #eee;
+}
+
+.swiper-item {
+  height: 100px;
+  line-height: 100px;
+  text-align: center;
+  background: #eef6ff;
+}

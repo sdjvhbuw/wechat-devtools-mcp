@@ -1,0 +1,17 @@
+{
+  "compileType": "miniprogram",
+  "appid": "touristappid",
+  "projectname": "mcp-control-fixture",
+  "setting": {
+    "es6": true,
+    "postcss": true,
+    "minified": false,
+    "urlCheck": false,
+    "compileHotReLoad": true
+  },
+  "packOptions": {
+    "ignore": [],
+    "include": []
+  },
+  "condition": {}
+}

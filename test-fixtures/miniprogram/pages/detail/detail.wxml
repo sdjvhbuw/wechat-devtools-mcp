@@ -1,0 +1,4 @@
+<view class="container">
+  <view class="detail-title">detail page</view>
+  <view class="detail-from">from={{from}}</view>
+</view>

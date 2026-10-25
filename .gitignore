@@ -1,0 +1,23 @@
+# dependencies
+node_modules/
+
+# local runtime output
+output/
+research/
+logs/
+*.log
+
+# local env
+.env
+.env.*
+!.env.example
+
+# editor / OS
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# test / coverage
+coverage/
+.nyc_output/

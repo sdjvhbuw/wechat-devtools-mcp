@@ -1,0 +1,25 @@
+<view class="container">
+  <input class="name-input" value="{{name}}" bindinput="onInput" placeholder="输入名字" />
+  <view class="name-echo">{{name}}</view>
+
+  <button class="tap-btn" bindtap="onTap">tap {{tapCount}}</button>
+  <view class="tap-count">{{tapCount}}</view>
+
+  <switch class="switch" checked="{{switchOn}}" bindchange="onSwitch" />
+  <view class="switch-echo">{{switchOn}}</view>
+
+  <slider class="slider" value="{{slider}}" bindchange="onSlide" />
+  <view class="slider-echo">{{slider}}</view>
+
+  <scroll-view class="scroll" scroll-y="true" style="height: 100px;">
+    <view class="scroll-item" wx:for="{{items}}" wx:key="*this">{{item}}</view>
+  </scroll-view>
+
+  <swiper class="swiper" style="height: 100px;">
+    <swiper-item><view class="swiper-item">A</view></swiper-item>
+    <swiper-item><view class="swiper-item">B</view></swiper-item>
+    <swiper-item><view class="swiper-item">C</view></swiper-item>
+  </swiper>
+
+  <button class="go-detail" bindtap="goDetail">detail</button>
+</view>

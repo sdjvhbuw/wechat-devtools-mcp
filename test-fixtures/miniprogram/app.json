@@ -1,0 +1,22 @@
+{
+  "pages": ["pages/index/index", "pages/detail/detail", "pages/tab/tab"],
+  "window": {
+    "navigationBarTitleText": "MCP Control Fixture",
+    "navigationBarBackgroundColor": "#ffffff",
+    "navigationBarTextStyle": "black"
+  },
+  "tabBar": {
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页"
+      },
+      {
+        "pagePath": "pages/tab/tab",
+        "text": "Tab"
+      }
+    ]
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+}
